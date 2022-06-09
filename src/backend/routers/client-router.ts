@@ -18,4 +18,24 @@ export const clientRouter = trpc
         where: { id: input.id }
       });
     }
+  })
+  .mutation("create", {
+    input: z.object({
+      name: z.string(),
+      email: z.string().email(),
+      phone: z.string()
+    }),
+    async resolve({ input }) {
+      return await prisma.client.create({ data: input });
+    }
+  })
+  .mutation("delete", {
+    input: z.object({
+      id: z.string()
+    }),
+    async resolve({ input }) {
+      return await prisma.client.delete({
+        where: { id: input.id }
+      });
+    }
   });
