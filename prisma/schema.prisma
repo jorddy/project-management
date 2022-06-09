@@ -18,6 +18,8 @@ model Project {
   status      String
   client      Client   @relation(fields: [clientId], references: [id])
   clientId    String
+
+  @@unique([clientId])
 }
 
 model Client {
