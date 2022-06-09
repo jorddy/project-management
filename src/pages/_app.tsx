@@ -2,9 +2,23 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "@/backend/router";
+import Header from "@/components/header";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <title>プロジェクトかなり - Project Management</title>
+        <meta
+          name='description'
+          content="The only project management app you'll need"
+        />
+      </Head>
+      <Header />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default withTRPC<AppRouter>({

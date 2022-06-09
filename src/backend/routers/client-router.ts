@@ -1,6 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "../db";
+import { clientSchema } from "@/shared/client-schema";
 
 export const clientRouter = trpc
   .router()
@@ -20,11 +21,7 @@ export const clientRouter = trpc
     }
   })
   .mutation("create", {
-    input: z.object({
-      name: z.string(),
-      email: z.string().email(),
-      phone: z.string()
-    }),
+    input: clientSchema,
     async resolve({ input }) {
       return await prisma.client.create({ data: input });
     }

@@ -5,6 +5,6 @@ import { projectRouter } from "./routers/project-router";
 export const appRouter = trpc
   .router()
   .merge("projects.", projectRouter)
-  .merge("client.", clientRouter);
+  .merge("clients.", clientRouter);
 
 export type AppRouter = typeof appRouter;
