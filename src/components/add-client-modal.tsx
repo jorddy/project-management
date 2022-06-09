@@ -8,9 +8,15 @@ import { clientSchema } from "@/shared/client-schema";
 
 export default function AddClientModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleSubmit, register } = useForm({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
     resolver: zodResolver(clientSchema)
   });
+
+  const onSubmit = data => console.log(data);
 
   return (
     <>
@@ -37,7 +43,7 @@ export default function AddClientModal() {
               className='p-6 flex justify-between items-center gap-8 
               border-b border-b-gray-200'
             >
-              <h3 className='text-xl font-semibold'>Add Client</h3>
+              <p className='text-xl font-semibold'>Add Client</p>
               <button onClick={() => setIsOpen(false)} aria-label='Close modal'>
                 <XIcon className='w-5 h-5 text-gray-400' />
               </button>
@@ -46,7 +52,7 @@ export default function AddClientModal() {
             {/* Modal form */}
             <div className='p-6'>
               <form
-                onSubmit={() => handleSubmit(d => console.log(d))}
+                onSubmit={handleSubmit(onSubmit)}
                 className='flex flex-col gap-4'
               >
                 <div className='flex flex-col gap-2'>
@@ -55,6 +61,8 @@ export default function AddClientModal() {
                     {...register("name")}
                     className='border p-1 border-gray-300 bg-pink-50'
                   />
+                  {/* TODO: Form Errors!! */}
+                  {errors?.email && <p>{errors?.email.message}</p>}
                 </div>
 
                 <div className='flex flex-col gap-2'>
@@ -74,18 +82,18 @@ export default function AddClientModal() {
                   />
                 </div>
 
-                <button type='submit'>awdawd</button>
-
                 <div
                   className='p-6 flex justify-end items-center gap-4
                   border-t border-t-gray-200'
                 >
                   <button
+                    onClick={() => setIsOpen(false)}
                     className='bg-gray-200 px-4 py-2 rounded-md
                     transition hover:bg-gray-300'
                   >
                     Cancel
                   </button>
+                  {/* TODO: Why is this causing the whole page to refresh on submit?? */}
                   <button
                     type='submit'
                     className='bg-pink-400 text-white flex items-center gap-2 
