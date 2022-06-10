@@ -5,3 +5,5 @@ export const clientSchema = z.object({
   email: z.string().email(),
   phone: z.string()
 });
+
+export type ClientSchema = z.infer<typeof clientSchema>;

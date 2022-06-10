@@ -2,18 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.table-cell {
-  @apply px-4 py-2;
-}
-
-.spinner {
-  @apply w-5 h-5 rounded-full bg-pink-400;
-  box-shadow: 0 0 0 0 #0004;
-  animation: spinner 1s infinite;
-}
-
-@keyframes spinner {
-  100% {
-    box-shadow: 0 0 0 30px #0000;
+@layer components {
+  .table-cell {
+    @apply px-4 py-2;
   }
 }
