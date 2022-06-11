@@ -1,6 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import ProjectCard from "./project-card";
-import Spinner from "./spinner";
+import Spinner from "../core/spinner";
 
 export default function Projects() {
   const projects = trpc.useQuery(["projects.findAll"]);

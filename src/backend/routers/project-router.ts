@@ -1,10 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "../db";
-
-const ProjectEnum = z
-  .enum(["Not Started", "In Progress", "Completed"])
-  .default("Not Started");
+import { projectEnum, projectSchema } from "@/shared/project-schema";
 
 export const projectRouter = trpc
   .router()
@@ -27,14 +24,7 @@ export const projectRouter = trpc
     }
   })
   .mutation("create", {
-    input: z.object({
-      name: z.string(),
-      description: z.string(),
-      status: ProjectEnum,
-      client: z.object({
-        connect: z.object({ id: z.string() })
-      })
-    }),
+    input: projectSchema,
     async resolve({ input }) {
       return await prisma.project.create({ data: input });
     }
@@ -54,7 +44,7 @@ export const projectRouter = trpc
       id: z.string(),
       name: z.string().optional(),
       description: z.string().optional(),
-      status: ProjectEnum.optional(),
+      status: projectEnum.optional(),
       client: z
         .object({
           connect: z.object({ id: z.string() })

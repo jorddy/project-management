@@ -1,7 +1,6 @@
 import { Client } from "@prisma/client";
 import { TrashIcon } from "@heroicons/react/solid";
 import { trpc } from "@/utils/trpc";
-import ClientCell from "./client-cell";
 
 export default function ClientRow({ client }: { client: Client }) {
   const ctx = trpc.useContext();
@@ -11,10 +10,10 @@ export default function ClientRow({ client }: { client: Client }) {
 
   return (
     <tr className='border-b border-b-gray-200 hover:bg-gray-100'>
-      <ClientCell as='td'>{client.name}</ClientCell>
-      <ClientCell as='td'>{client.email}</ClientCell>
-      <ClientCell as='td'>{client.phone}</ClientCell>
-      <ClientCell as='td'>
+      <td className='table-cell'>{client.name}</td>
+      <td className='table-cell'>{client.email}</td>
+      <td className='table-cell'>{client.phone}</td>
+      <td className='table-cell text-right  '>
         <button
           onClick={() => deleteClient.mutate({ id: client.id })}
           disabled={deleteClient.isLoading}
@@ -22,7 +21,7 @@ export default function ClientRow({ client }: { client: Client }) {
         >
           <TrashIcon className='w-5 h-5 text-white' />
         </button>
-      </ClientCell>
+      </td>
     </tr>
   );
 }

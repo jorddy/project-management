@@ -1,13 +1,23 @@
-import AddClientModal from "@/components/add-client-modal";
-import Clients from "@/components/clients";
-import Projects from "@/components/projects";
+import dynamic from "next/dynamic";
+import Clients from "@/components/client/clients-table";
+import Projects from "@/components/project/project-cards";
+
+const AddClientModal = dynamic(
+  () => import("@/components/modals/add-client-modal")
+);
+const AddProjectModal = dynamic(
+  () => import("@/components/modals/add-project-modal")
+);
 
 export default function Index() {
   return (
-    <main className='mt-8 container mx-auto px-4 space-y-6'>
-      <AddClientModal />
+    <>
+      <div className='flex gap-2 items-center'>
+        <AddClientModal />
+        <AddProjectModal />
+      </div>
       <Projects />
       <Clients />
-    </main>
+    </>
   );
 }

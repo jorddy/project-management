@@ -7,7 +7,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className='flex justify-between items-center'>
         <h3 className='text-xl font-semibold'>{project.name}</h3>
         {/* TODO: why is this navigation causing a full page refresh */}
-        <Link href={`/projects/${project.id}`}>
+        <Link href={`/projects/${project.id}`} passHref>
           <a className='bg-gray-100 px-4 py-2 rounded-md'>View</a>
         </Link>
       </div>

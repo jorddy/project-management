@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "@/backend/router";
-import Header from "@/components/header";
+import Header from "@/components/core/header";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -16,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Header />
-      <Component {...pageProps} />
+      <main className='mt-8 container mx-auto px-4 space-y-6'>
+        <Component {...pageProps} />
+      </main>
     </>
   );
 }

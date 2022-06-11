@@ -1,7 +1,6 @@
 import { trpc } from "@/utils/trpc";
-import ClientCell from "./client-cell";
 import ClientRow from "./client-row";
-import Spinner from "./spinner";
+import Spinner from "../core/spinner";
 
 export default function Clients() {
   const clients = trpc.useQuery(["clients.findAll"]);
@@ -18,10 +17,10 @@ export default function Clients() {
     <table className='table-auto w-full'>
       <thead>
         <tr className='text-left border-b border-b-gray-200 '>
-          <ClientCell as='th'>Name</ClientCell>
-          <ClientCell as='th'>Email</ClientCell>
-          <ClientCell as='th'>Phone</ClientCell>
-          <ClientCell as='th'></ClientCell>
+          <th className='table-cell'>Name</th>
+          <th className='table-cell'>Email</th>
+          <th className='table-cell'>Phone</th>
+          <th className='table-cell'></th>
         </tr>
       </thead>
       <tbody>
