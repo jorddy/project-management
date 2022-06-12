@@ -16,10 +16,10 @@ model Project {
   name        String
   description String
   status      String
-  client      Client   @relation(fields: [clientId], references: [id])
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId    String
 
-  @@unique([clientId])
+  @@index([clientId])
 }
 
 model Client {

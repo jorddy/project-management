@@ -1,11 +1,18 @@
 import { Client } from "@prisma/client";
 import { TrashIcon } from "@heroicons/react/solid";
 import { trpc } from "@/utils/trpc";
+import toast from "react-hot-toast";
 
 export default function ClientRow({ client }: { client: Client }) {
   const ctx = trpc.useContext();
   const deleteClient = trpc.useMutation(["clients.delete"], {
-    onSuccess: () => ctx.invalidateQueries(["clients.findAll"])
+    onError: error => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      ctx.invalidateQueries(["clients.findAll"]);
+      ctx.invalidateQueries(["projects.findAll"]);
+    }
   });
 
   return (

@@ -20,6 +20,7 @@ export default function BaseAutocomplete({
       focus-within:outline-black'
       >
         <Combobox.Input
+          autoComplete='off'
           onChange={event => setQuery(event.target.value)}
           className='bg-transparent w-full focus:outline-none'
         />

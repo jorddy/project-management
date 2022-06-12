@@ -7,6 +7,7 @@ import Button from "../core/button";
 import BaseModal from "./base-modal";
 import StatusAutocomplete from "../autocomplete/status-autocomplete";
 import ClientAutocomplete from "../autocomplete/client-autocomplete";
+import toast from "react-hot-toast";
 
 export default function AddProjectModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,22 +25,12 @@ export default function AddProjectModal() {
   });
 
   const createProject = trpc.useMutation(["projects.create"], {
-    onMutate: data => {
-      const previousProjects = ctx.getQueryData(["projects.findAll"]);
-
-      // Optimistic update
-      ctx.setQueryData(["projects.findAll"], old => [...old!, data] as any);
-
+    onError: error => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      ctx.invalidateQueries(["projects.findAll"]);
       setIsOpen(false);
-      return { previousProjects };
-    },
-    onError: (error, data, context) => {
-      // Fall back if there's an error
-      ctx.setQueryData(["projects.findAll"], context?.previousProjects!);
-    },
-    onSettled: () => {
-      // Invalidate just in case
-      ctx.invalidateQueries(["clients.findAll"]);
       reset();
     }
   });
@@ -49,19 +40,20 @@ export default function AddProjectModal() {
 
   return (
     <>
-      <Button projectButton={true} onClick={() => setIsOpen(true)} />
+      <Button project={true} onClick={() => setIsOpen(true)} />
 
       <BaseModal title='Add Project' isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className='p-6'>
           <form
             id='create-project'
-            onSubmit={handleSubmit(data => console.log(data))}
+            onSubmit={handleSubmit(data => createProject.mutate(data))}
             className='flex flex-col gap-4'
           >
             <div className='flex flex-col gap-2'>
               <label htmlFor='name'>Name:</label>
               <input
                 {...register("name")}
+                required
                 className='border p-1 border-gray-300 bg-pink-50'
               />
               {errors?.name && (
@@ -70,10 +62,10 @@ export default function AddProjectModal() {
             </div>
 
             <div className='flex flex-col gap-2'>
-              <label htmlFor='email'>Email:</label>
+              <label htmlFor='description'>Description:</label>
               <input
-                type='email'
                 {...register("description")}
+                required
                 className='border p-1 border-gray-300 bg-pink-50'
               />
               {errors?.description && (

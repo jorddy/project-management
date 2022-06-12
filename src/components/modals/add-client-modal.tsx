@@ -5,6 +5,7 @@ import { trpc } from "@/utils/trpc";
 import { ClientSchema, clientSchema } from "@/shared/client-schema";
 import BaseModal from "./base-modal";
 import Button from "../core/button";
+import toast from "react-hot-toast";
 
 export default function AddClientModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function AddClientModal() {
     onError: (error, data, context) => {
       // Fall back if there's an error
       ctx.setQueryData(["clients.findAll"], context?.previousClients!);
+      toast.error(error.message);
     },
     onSettled: () => {
       // Invalidate just in case
@@ -42,7 +44,7 @@ export default function AddClientModal() {
 
   return (
     <>
-      <Button clientButton={true} onClick={() => setIsOpen(true)} />
+      <Button client={true} onClick={() => setIsOpen(true)} />
 
       <BaseModal title='Add Client' isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className='p-6'>
@@ -55,6 +57,7 @@ export default function AddClientModal() {
               <label htmlFor='name'>Name:</label>
               <input
                 {...register("name")}
+                required
                 className='border p-1 border-gray-300 bg-pink-50'
               />
               {errors?.name && (
@@ -65,8 +68,9 @@ export default function AddClientModal() {
             <div className='flex flex-col gap-2'>
               <label htmlFor='email'>Email:</label>
               <input
-                type='email'
                 {...register("email")}
+                type='email'
+                required
                 className='border p-1 border-gray-300 bg-pink-50'
               />
               {errors?.email && (
@@ -78,6 +82,7 @@ export default function AddClientModal() {
               <label htmlFor='phone'>Phone:</label>
               <input
                 {...register("phone")}
+                required
                 className='border p-1 border-gray-300 bg-pink-50'
               />
               {errors?.phone && (

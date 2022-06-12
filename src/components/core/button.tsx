@@ -1,20 +1,26 @@
-import { ClipboardListIcon, UserIcon } from "@heroicons/react/solid";
+import { ClipboardListIcon, UserIcon, TrashIcon } from "@heroicons/react/solid";
 import { PropsWithChildren } from "react";
 
 export default function Button({
-  projectButton,
-  clientButton,
+  project,
+  client,
+  deleteProject,
+  loading,
   onClick,
+  type,
   children
 }: PropsWithChildren<{
-  projectButton?: boolean;
-  clientButton?: boolean;
-  onClick: () => void;
+  project?: boolean;
+  client?: boolean;
+  deleteProject?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }>) {
   const coreStyles =
     "flex gap-2 items-center px-4 py-2 text-white rounded-md transition";
 
-  if (projectButton) {
+  if (project) {
     return (
       <button
         onClick={onClick}
@@ -26,7 +32,7 @@ export default function Button({
     );
   }
 
-  if (clientButton) {
+  if (client) {
     return (
       <button
         onClick={onClick}
@@ -38,10 +44,24 @@ export default function Button({
     );
   }
 
+  if (deleteProject) {
+    return (
+      <button
+        onClick={onClick}
+        disabled={loading}
+        className={`${coreStyles} bg-red-600 hover:bg-red-800 disabled:opacity-60`}
+      >
+        <TrashIcon className='w-6 h-6 text-white' />
+        <p>{loading ? "Deleting Project..." : "Delete Project"}</p>
+      </button>
+    );
+  }
+
   return (
     <button
+      type={type}
       onClick={onClick}
-      className={`${coreStyles} bg-pink-400 hover:bg-pink-600`}
+      className={`${coreStyles} bg-pink-400 max-w-fit hover:bg-pink-600`}
     >
       {children}
     </button>

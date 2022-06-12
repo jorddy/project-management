@@ -14,3 +14,17 @@ export const projectSchema = z.object({
 });
 
 export type ProjectSchema = z.infer<typeof projectSchema>;
+
+export const updateProjectSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  status: projectEnum.optional(),
+  client: z
+    .object({
+      connect: z.object({ id: z.string() })
+    })
+    .optional()
+});
+
+export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;

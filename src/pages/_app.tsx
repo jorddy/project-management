@@ -4,6 +4,7 @@ import { withTRPC } from "@trpc/next";
 import { AppRouter } from "@/backend/router";
 import Header from "@/components/core/header";
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,9 +17,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Header />
-      <main className='mt-8 container mx-auto px-4 space-y-6'>
+      <main className='my-8 container mx-auto px-4 space-y-6'>
         <Component {...pageProps} />
       </main>
+      <Toaster position='bottom-center' />
     </>
   );
 }

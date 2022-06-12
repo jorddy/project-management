@@ -2,6 +2,7 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "../db";
 import { clientSchema } from "@/shared/client-schema";
+import { TRPCError } from "@trpc/server";
 
 export const clientRouter = trpc
   .router()
@@ -23,6 +24,10 @@ export const clientRouter = trpc
   .mutation("create", {
     input: clientSchema,
     async resolve({ input }) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Somwthing went wrong"
+      });
       return await prisma.client.create({ data: input });
     }
   })

@@ -1,7 +1,11 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "../db";
-import { projectEnum, projectSchema } from "@/shared/project-schema";
+import {
+  projectEnum,
+  projectSchema,
+  updateProjectSchema
+} from "@/shared/project-schema";
 
 export const projectRouter = trpc
   .router()
@@ -40,26 +44,14 @@ export const projectRouter = trpc
     }
   })
   .mutation("update", {
-    input: z.object({
-      id: z.string(),
-      name: z.string().optional(),
-      description: z.string().optional(),
-      status: projectEnum.optional(),
-      client: z
-        .object({
-          connect: z.object({ id: z.string() })
-        })
-        .optional()
-    }),
+    input: updateProjectSchema,
     async resolve({ input }) {
-      return await prisma.project.upsert({
+      return await prisma.project.update({
         where: { id: input.id },
-        update: input,
-        create: {
-          name: input.name!,
-          description: input.description!,
-          status: input.status!,
-          client: input.client!
+        data: {
+          name: input.name || undefined,
+          description: input.description || undefined,
+          status: input.status || undefined
         }
       });
     }
