@@ -34,7 +34,7 @@ export default withTRPC<AppRouter>({
 
     const url =
       process.env.NODE_ENV === "production"
-        ? `https://app-project-management/api/trpc`
+        ? `https://app-project-management.vercel.app/api/trpc`
         : "http://localhost:3000/api/trpc";
 
     return { url };
