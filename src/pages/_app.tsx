@@ -32,9 +32,10 @@ export default withTRPC<AppRouter>({
      * @link https://trpc.io/docs/ssr
      */
 
-    const url = process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`
-      : "http://localhost:3000/api/trpc";
+    const url =
+      process.env.NODE_ENV === "production"
+        ? `https://app-project-management/api/trpc`
+        : "http://localhost:3000/api/trpc";
 
     return { url };
   },
